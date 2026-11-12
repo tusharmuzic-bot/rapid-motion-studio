@@ -42,7 +42,7 @@ export function MediaUrlOrUploadField({
       const storagePath = `${folder}/${Date.now()}-${safeName}`;
 
       const { error: uploadErr } = await supabase.storage
-        .from("velora-media")
+        .from("rapid-motion-media")
         .upload(storagePath, file, {
           contentType: file.type,
           upsert: false,
@@ -55,7 +55,7 @@ export function MediaUrlOrUploadField({
       }
 
       const { data: pub } = supabase.storage
-        .from("velora-media")
+        .from("rapid-motion-media")
         .getPublicUrl(storagePath);
 
       const publicUrl = pub.publicUrl;
@@ -68,7 +68,7 @@ export function MediaUrlOrUploadField({
           alt_text: file.name,
           asset_kind: assetKind,
           usage_slot: usageSlot,
-          bucket_name: "velora-media",
+          bucket_name: "rapid-motion-media",
           storage_path: storagePath,
           public_url: publicUrl,
           mime_type: file.type,

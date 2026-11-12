@@ -103,7 +103,7 @@ export default function AdminMediaPage() {
       const storagePath = `${folder}/${Date.now()}-${safeName}`;
 
       const { error: uploadErr } = await supabase.storage
-        .from("velora-media")
+        .from("rapid-motion-media")
         .upload(storagePath, file, { contentType: file.type, upsert: false });
 
       if (uploadErr) {
@@ -112,7 +112,7 @@ export default function AdminMediaPage() {
       }
 
       const { data: pub } = supabase.storage
-        .from("velora-media")
+        .from("rapid-motion-media")
         .getPublicUrl(storagePath);
       const publicUrl = pub.publicUrl;
 
@@ -129,7 +129,7 @@ export default function AdminMediaPage() {
               : targetSlot.startsWith("showreel")
               ? "showreel"
               : "general",
-          bucket_name: "velora-media",
+          bucket_name: "rapid-motion-media",
           storage_path: storagePath,
           public_url: publicUrl,
           mime_type: file.type,

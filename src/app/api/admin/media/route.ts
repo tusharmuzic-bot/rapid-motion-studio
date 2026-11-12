@@ -24,7 +24,7 @@ const registerMediaSchema = z.object({
       "general",
     ])
     .default("general"),
-  bucket_name: z.string().trim().default("velora-media"),
+  bucket_name: z.string().trim().default("rapid-motion-media"),
   storage_path: z.string().trim().max(500).default(""),
   public_url: assetUrlSchema,
   mime_type: z.string().trim().max(120).default(""),

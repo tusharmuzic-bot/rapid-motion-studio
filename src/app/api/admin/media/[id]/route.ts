@@ -94,8 +94,8 @@ export async function DELETE(
     .eq("id", id)
     .maybeSingle();
 
-  if (existing?.bucket_name === "velora-media" && existing.storage_path) {
-    await supabase.storage.from("velora-media").remove([existing.storage_path]);
+  if (existing?.bucket_name === "rapid-motion-media" && existing.storage_path) {
+    await supabase.storage.from("rapid-motion-media").remove([existing.storage_path]);
   }
 
   const { error } = await supabase.from("media_assets").delete().eq("id", id);
