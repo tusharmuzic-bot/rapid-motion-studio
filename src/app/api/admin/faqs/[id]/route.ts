@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireAdminApi } from "@/lib/admin-auth";
 import { logAdminActivity, zodErrorResponse } from "@/lib/admin-api-helpers";
-import { revalidateVeloraPublic } from "@/lib/revalidate";
+import { revalidateStudioPublic } from "@/lib/revalidate";
 import { createClient } from "@/lib/supabase/server";
 
 const patchFaqSchema = z.object({
@@ -45,7 +45,7 @@ export async function PATCH(
     id,
     `Updated FAQ "${data.question.slice(0, 60)}"`
   );
-  revalidateVeloraPublic(["faqs"]);
+  revalidateStudioPublic(["faqs"]);
   return NextResponse.json({ faq: data });
 }
 
@@ -72,6 +72,6 @@ export async function DELETE(
     id,
     `Deleted FAQ ${id}`
   );
-  revalidateVeloraPublic(["faqs"]);
+  revalidateStudioPublic(["faqs"]);
   return NextResponse.json({ deleted: true });
 }

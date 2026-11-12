@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight, Mail, MessageCircle } from "lucide-react";
-import { BrandLogo } from "@/components/brand/velora-logo";
+import { BrandLogo } from "@/components/brand/brand-logo";
 import { BRAND } from "@/lib/brand";
 import { sanitizeExternalUrl } from "@/lib/utils";
 import type { ServiceItem, SiteSettings } from "@/lib/types";

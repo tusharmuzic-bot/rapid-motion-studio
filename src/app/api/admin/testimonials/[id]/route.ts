@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireAdminApi } from "@/lib/admin-auth";
 import { logAdminActivity, zodErrorResponse } from "@/lib/admin-api-helpers";
-import { revalidateVeloraPublic } from "@/lib/revalidate";
+import { revalidateStudioPublic } from "@/lib/revalidate";
 import { createClient } from "@/lib/supabase/server";
 
 const patchTestimonialSchema = z.object({
@@ -52,7 +52,7 @@ export async function PATCH(
     id,
     `Updated testimonial from ${data.client_name}`
   );
-  revalidateVeloraPublic(["testimonials"]);
+  revalidateStudioPublic(["testimonials"]);
   return NextResponse.json({ testimonial: data });
 }
 
@@ -79,6 +79,6 @@ export async function DELETE(
     id,
     `Deleted testimonial ${id}`
   );
-  revalidateVeloraPublic(["testimonials"]);
+  revalidateStudioPublic(["testimonials"]);
   return NextResponse.json({ deleted: true });
 }

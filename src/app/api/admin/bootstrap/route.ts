@@ -148,7 +148,7 @@ export async function POST(request: Request) {
 
     // Email confirmation required on hosted Supabase Auth
     const cookieStore = await cookies();
-    cookieStore.set("velora_pending_owner", encodeURIComponent(fullName), {
+    cookieStore.set("rms_pending_owner", encodeURIComponent(fullName), {
       httpOnly: true,
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",

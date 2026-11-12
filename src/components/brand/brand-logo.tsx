@@ -78,6 +78,3 @@ export function BrandLogo({
     </Link>
   );
 }
-
-// Re-export under existing name for clean compatibility across imports
-export { BrandLogo as VeloraLogo };

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireAdminApi } from "@/lib/admin-auth";
 import { logAdminActivity, zodErrorResponse } from "@/lib/admin-api-helpers";
-import { revalidateVeloraPublic } from "@/lib/revalidate";
+import { revalidateStudioPublic } from "@/lib/revalidate";
 import { createClient } from "@/lib/supabase/server";
 import { slugify } from "@/lib/utils";
 
@@ -70,6 +70,6 @@ export async function POST(request: Request) {
     data.id,
     `Created pricing package "${data.name}"`
   );
-  revalidateVeloraPublic(["pricing"]);
+  revalidateStudioPublic(["pricing"]);
   return NextResponse.json({ package: data }, { status: 201 });
 }

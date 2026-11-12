@@ -6,7 +6,7 @@ import {
   logAdminActivity,
   zodErrorResponse,
 } from "@/lib/admin-api-helpers";
-import { revalidateVeloraPublic } from "@/lib/revalidate";
+import { revalidateStudioPublic } from "@/lib/revalidate";
 import { createClient } from "@/lib/supabase/server";
 
 const createComparisonSchema = z.object({
@@ -62,6 +62,6 @@ export async function POST(request: Request) {
     data.id,
     `Added Before/After showcase "${data.title}"`
   );
-  revalidateVeloraPublic(["comparisons"]);
+  revalidateStudioPublic(["comparisons"]);
   return NextResponse.json({ comparison: data }, { status: 201 });
 }

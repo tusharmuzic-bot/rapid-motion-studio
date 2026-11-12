@@ -6,7 +6,7 @@ import {
   logAdminActivity,
   zodErrorResponse,
 } from "@/lib/admin-api-helpers";
-import { revalidateVeloraPublic } from "@/lib/revalidate";
+import { revalidateStudioPublic } from "@/lib/revalidate";
 import { createClient } from "@/lib/supabase/server";
 
 const registerMediaSchema = z.object({
@@ -120,7 +120,7 @@ export async function POST(request: Request) {
       .from("site_settings")
       .update({ [d.assignSiteSlot]: d.public_url })
       .eq("id", 1);
-    revalidateVeloraPublic(["settings"]);
+    revalidateStudioPublic(["settings"]);
   }
 
   await logAdminActivity(

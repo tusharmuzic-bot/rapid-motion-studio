@@ -6,7 +6,7 @@ import {
   logAdminActivity,
   zodErrorResponse,
 } from "@/lib/admin-api-helpers";
-import { revalidateVeloraPublic } from "@/lib/revalidate";
+import { revalidateStudioPublic } from "@/lib/revalidate";
 import { createClient } from "@/lib/supabase/server";
 
 const patchComparisonSchema = z.object({
@@ -51,7 +51,7 @@ export async function PATCH(
     id,
     `Updated Before/After showcase "${data.title}"`
   );
-  revalidateVeloraPublic(["comparisons"]);
+  revalidateStudioPublic(["comparisons"]);
   return NextResponse.json({ comparison: data });
 }
 
@@ -87,6 +87,6 @@ export async function DELETE(
     id,
     `Deleted Before/After showcase "${existing?.title || id}"`
   );
-  revalidateVeloraPublic(["comparisons"]);
+  revalidateStudioPublic(["comparisons"]);
   return NextResponse.json({ deleted: true });
 }

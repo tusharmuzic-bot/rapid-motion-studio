@@ -6,7 +6,7 @@ import {
   logAdminActivity,
   zodErrorResponse,
 } from "@/lib/admin-api-helpers";
-import { revalidateVeloraPublic } from "@/lib/revalidate";
+import { revalidateStudioPublic } from "@/lib/revalidate";
 import { createClient } from "@/lib/supabase/server";
 
 const settingsSchema = z.object({
@@ -77,6 +77,6 @@ export async function PUT(request: Request) {
     "1",
     `Updated global studio settings`
   );
-  revalidateVeloraPublic(["settings"]);
+  revalidateStudioPublic(["settings"]);
   return NextResponse.json({ settings: data });
 }

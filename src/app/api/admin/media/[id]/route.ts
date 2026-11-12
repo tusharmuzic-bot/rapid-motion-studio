@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireAdminApi } from "@/lib/admin-auth";
 import { logAdminActivity, zodErrorResponse } from "@/lib/admin-api-helpers";
-import { revalidateVeloraPublic } from "@/lib/revalidate";
+import { revalidateStudioPublic } from "@/lib/revalidate";
 import { createClient } from "@/lib/supabase/server";
 
 const patchMediaSchema = z.object({
@@ -63,7 +63,7 @@ export async function PATCH(
       .from("site_settings")
       .update({ [assignSiteSlot]: asset.public_url })
       .eq("id", 1);
-    revalidateVeloraPublic(["settings"]);
+    revalidateStudioPublic(["settings"]);
   }
 
   await logAdminActivity(

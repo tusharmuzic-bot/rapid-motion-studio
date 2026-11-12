@@ -6,7 +6,7 @@ import {
   logAdminActivity,
   zodErrorResponse,
 } from "@/lib/admin-api-helpers";
-import { revalidateVeloraPublic } from "@/lib/revalidate";
+import { revalidateStudioPublic } from "@/lib/revalidate";
 import { createClient } from "@/lib/supabase/server";
 import { slugify } from "@/lib/utils";
 
@@ -105,7 +105,7 @@ export async function POST(request: Request) {
       data.id,
       `Created portfolio category "${data.name}"`
     );
-    revalidateVeloraPublic(["portfolio"]);
+    revalidateStudioPublic(["portfolio"]);
     return NextResponse.json({ category: data }, { status: 201 });
   }
 
@@ -153,6 +153,6 @@ export async function POST(request: Request) {
     data.id,
     `Created portfolio project "${data.title}" (${data.project_type})`
   );
-  revalidateVeloraPublic(["portfolio"]);
+  revalidateStudioPublic(["portfolio"]);
   return NextResponse.json({ project: data }, { status: 201 });
 }

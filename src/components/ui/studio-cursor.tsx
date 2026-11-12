@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
-export function VeloraCursor() {
+export function StudioCursor() {
   const [visible, setVisible] = useState(false);
   const [cursorLabel, setCursorLabel] = useState<string | null>(null);
   const [isInteractive, setIsInteractive] = useState(false);

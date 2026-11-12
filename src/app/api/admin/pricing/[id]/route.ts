@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireAdminApi } from "@/lib/admin-auth";
 import { logAdminActivity, zodErrorResponse } from "@/lib/admin-api-helpers";
-import { revalidateVeloraPublic } from "@/lib/revalidate";
+import { revalidateStudioPublic } from "@/lib/revalidate";
 import { createClient } from "@/lib/supabase/server";
 import { slugify } from "@/lib/utils";
 
@@ -58,7 +58,7 @@ export async function PATCH(
     id,
     `Updated pricing package "${data.name}"`
   );
-  revalidateVeloraPublic(["pricing"]);
+  revalidateStudioPublic(["pricing"]);
   return NextResponse.json({ package: data });
 }
 
@@ -94,6 +94,6 @@ export async function DELETE(
     id,
     `Deleted pricing package "${existing?.name || id}"`
   );
-  revalidateVeloraPublic(["pricing"]);
+  revalidateStudioPublic(["pricing"]);
   return NextResponse.json({ deleted: true });
 }

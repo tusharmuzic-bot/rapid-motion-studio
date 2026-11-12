@@ -27,7 +27,7 @@ function createPublicClient() {
 export async function getSiteSettings(): Promise<SiteSettings> {
   "use cache";
   cacheLife("minutes");
-  cacheTag("velora-public", "settings");
+  cacheTag("rapid-motion-public", "settings");
 
   const supabase = createPublicClient();
   const { data } = await supabase
@@ -77,7 +77,7 @@ export async function getSiteContentMap(): Promise<
 > {
   "use cache";
   cacheLife("minutes");
-  cacheTag("velora-public", "content");
+  cacheTag("rapid-motion-public", "content");
 
   const supabase = createPublicClient();
   const { data } = await supabase.from("site_content").select("key, content");
@@ -91,7 +91,7 @@ export async function getSiteContentMap(): Promise<
 export async function getPortfolioCategories(): Promise<PortfolioCategory[]> {
   "use cache";
   cacheLife("minutes");
-  cacheTag("velora-public", "portfolio");
+  cacheTag("rapid-motion-public", "portfolio");
 
   const supabase = createPublicClient();
   const { data } = await supabase
@@ -105,7 +105,7 @@ export async function getPortfolioCategories(): Promise<PortfolioCategory[]> {
 export async function getPublishedProjects(): Promise<PortfolioProject[]> {
   "use cache";
   cacheLife("minutes");
-  cacheTag("velora-public", "portfolio");
+  cacheTag("rapid-motion-public", "portfolio");
 
   const supabase = createPublicClient();
   const { data } = await supabase
@@ -121,7 +121,7 @@ export async function getProjectBySlug(
 ): Promise<PortfolioProject | null> {
   "use cache";
   cacheLife("minutes");
-  cacheTag("velora-public", "portfolio");
+  cacheTag("rapid-motion-public", "portfolio");
 
   const supabase = createPublicClient();
   const { data } = await supabase
@@ -138,7 +138,7 @@ export async function getPublishedComparisons(): Promise<
 > {
   "use cache";
   cacheLife("minutes");
-  cacheTag("velora-public", "comparisons");
+  cacheTag("rapid-motion-public", "comparisons");
 
   const supabase = createPublicClient();
   const { data } = await supabase
@@ -152,7 +152,7 @@ export async function getPublishedComparisons(): Promise<
 export async function getPublishedServices(): Promise<ServiceItem[]> {
   "use cache";
   cacheLife("minutes");
-  cacheTag("velora-public", "services");
+  cacheTag("rapid-motion-public", "services");
 
   const supabase = createPublicClient();
   const { data } = await supabase
@@ -168,7 +168,7 @@ export async function getServiceBySlug(
 ): Promise<ServiceItem | null> {
   "use cache";
   cacheLife("minutes");
-  cacheTag("velora-public", "services");
+  cacheTag("rapid-motion-public", "services");
 
   const supabase = createPublicClient();
   const { data } = await supabase
@@ -183,7 +183,7 @@ export async function getServiceBySlug(
 export async function getPublishedPricing(): Promise<PricingPackage[]> {
   "use cache";
   cacheLife("minutes");
-  cacheTag("velora-public", "pricing");
+  cacheTag("rapid-motion-public", "pricing");
 
   const supabase = createPublicClient();
   const { data } = await supabase
@@ -197,7 +197,7 @@ export async function getPublishedPricing(): Promise<PricingPackage[]> {
 export async function getPublishedFaqs(): Promise<FaqItem[]> {
   "use cache";
   cacheLife("minutes");
-  cacheTag("velora-public", "faqs");
+  cacheTag("rapid-motion-public", "faqs");
 
   const supabase = createPublicClient();
   const { data } = await supabase
@@ -211,7 +211,7 @@ export async function getPublishedFaqs(): Promise<FaqItem[]> {
 export async function getPublishedTestimonials(): Promise<TestimonialItem[]> {
   "use cache";
   cacheLife("minutes");
-  cacheTag("velora-public", "testimonials");
+  cacheTag("rapid-motion-public", "testimonials");
 
   const supabase = createPublicClient();
   const { data } = await supabase

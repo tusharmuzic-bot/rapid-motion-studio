@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireAdminApi } from "@/lib/admin-auth";
 import { logAdminActivity, zodErrorResponse } from "@/lib/admin-api-helpers";
-import { revalidateVeloraPublic } from "@/lib/revalidate";
+import { revalidateStudioPublic } from "@/lib/revalidate";
 import { createClient } from "@/lib/supabase/server";
 
 const updateContentSchema = z.object({
@@ -68,6 +68,6 @@ export async function PUT(request: Request) {
     key,
     `Updated site content block "${data.label}"`
   );
-  revalidateVeloraPublic(["content"]);
+  revalidateStudioPublic(["content"]);
   return NextResponse.json({ block: data });
 }

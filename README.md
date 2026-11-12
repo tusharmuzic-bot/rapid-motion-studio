@@ -56,4 +56,4 @@ npm run build
 
 ---
 
-Built by **Tushar Gupta** ([@tusharmuzic-bot](https://github.com/tusharmuzic-bot)).
+Built by **Rapid Motion Studio** ([@tusharmuzic-bot](https://github.com/tusharmuzic-bot/rapid-motion-studio)).

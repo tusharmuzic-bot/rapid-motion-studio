@@ -229,7 +229,7 @@ export default function AdminMediaPage() {
       <AdminPageHeader
         eyebrow="Modules C & D • Media Control"
         title="Videos, Posters & Asset Library"
-        description="Upload MP4/WebM reels and high-resolution images directly to Supabase Storage (velora-media) and assign active Hero & Showreel slots."
+        description="Upload MP4/WebM reels and high-resolution images directly to Studio Media Storage and assign active Hero & Showreel slots."
         actions={
           <button
             type="button"

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireAdminApi } from "@/lib/admin-auth";
 import { logAdminActivity, zodErrorResponse } from "@/lib/admin-api-helpers";
-import { revalidateVeloraPublic } from "@/lib/revalidate";
+import { revalidateStudioPublic } from "@/lib/revalidate";
 import { createClient } from "@/lib/supabase/server";
 
 const createFaqSchema = z.object({
@@ -56,6 +56,6 @@ export async function POST(request: Request) {
     data.id,
     `Created FAQ "${data.question.slice(0, 60)}"`
   );
-  revalidateVeloraPublic(["faqs"]);
+  revalidateStudioPublic(["faqs"]);
   return NextResponse.json({ faq: data }, { status: 201 });
 }

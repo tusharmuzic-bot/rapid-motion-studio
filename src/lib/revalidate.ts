@@ -1,7 +1,7 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 
-export function revalidateVeloraPublic(tags: string[] = []) {
-  revalidateTag("velora-public", "max");
+export function revalidateStudioPublic(tags: string[] = []) {
+  revalidateTag("rapid-motion-public", "max");
   for (const tag of tags) {
     revalidateTag(tag, "max");
   }

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { getCurrentAdmin, isBootstrapInitialized } from "@/lib/admin-auth";
-import { VeloraLogo } from "@/components/brand/velora-logo";
+import { BrandLogo } from "@/components/brand/brand-logo";
 import { AdminLoginForm } from "@/components/admin/admin-login-form";
 
 async function AdminLoginContent() {
@@ -19,12 +19,12 @@ async function AdminLoginContent() {
 
 export default function AdminLoginPage() {
   return (
-    <main className="velora-ambient-bg relative flex min-h-screen flex-col items-center justify-center px-4 py-12">
+    <main className="studio-ambient-bg relative flex min-h-screen flex-col items-center justify-center px-4 py-12">
       <div className="pointer-events-none absolute inset-0 subtle-grid opacity-40" />
 
       <div className="relative z-10 w-full max-w-md space-y-6">
         <div className="flex items-center justify-between">
-          <VeloraLogo />
+          <BrandLogo />
           <Link
             href="/"
             className="inline-flex items-center gap-1.5 rounded-full border border-ivory/15 px-3.5 py-1.5 text-xs text-ivory/75 transition hover:border-gold/40 hover:text-ivory"

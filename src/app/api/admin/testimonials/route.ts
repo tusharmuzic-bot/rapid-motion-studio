@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireAdminApi } from "@/lib/admin-auth";
 import { logAdminActivity, zodErrorResponse } from "@/lib/admin-api-helpers";
-import { revalidateVeloraPublic } from "@/lib/revalidate";
+import { revalidateStudioPublic } from "@/lib/revalidate";
 import { createClient } from "@/lib/supabase/server";
 
 const createTestimonialSchema = z.object({
@@ -65,6 +65,6 @@ export async function POST(request: Request) {
     data.id,
     `Added testimonial from ${data.client_name}`
   );
-  revalidateVeloraPublic(["testimonials"]);
+  revalidateStudioPublic(["testimonials"]);
   return NextResponse.json({ testimonial: data }, { status: 201 });
 }

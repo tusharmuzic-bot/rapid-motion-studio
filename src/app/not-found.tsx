@@ -3,7 +3,7 @@ import { ArrowLeft, Film } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-charcoal px-6 text-center velora-ambient-bg">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-charcoal px-6 text-center studio-ambient-bg">
       <div className="glass-panel max-w-lg rounded-3xl p-10">
         <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-gold/40 bg-wine/70 text-gold">
           <Film className="h-6 w-6" />

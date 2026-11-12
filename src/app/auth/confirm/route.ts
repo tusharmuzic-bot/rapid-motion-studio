@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     if (!error) {
       // Complete initial owner claim if pending bootstrap cookie is present
       const cookieStore = await cookies();
-      const pendingName = cookieStore.get("velora_pending_owner")?.value;
+      const pendingName = cookieStore.get("rms_pending_owner")?.value;
       const setupToken = process.env.ADMIN_SETUP_TOKEN;
       if (pendingName && setupToken) {
         const tokenHash = crypto
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
           p_full_name: decodeURIComponent(pendingName),
           p_token_hash: tokenHash,
         });
-        cookieStore.delete("velora_pending_owner");
+        cookieStore.delete("rms_pending_owner");
       }
       redirect(next.startsWith("/") ? next : "/admin");
     }

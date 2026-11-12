@@ -7,7 +7,7 @@ import {
   logAdminActivity,
   zodErrorResponse,
 } from "@/lib/admin-api-helpers";
-import { revalidateVeloraPublic } from "@/lib/revalidate";
+import { revalidateStudioPublic } from "@/lib/revalidate";
 import { createClient } from "@/lib/supabase/server";
 import { slugify } from "@/lib/utils";
 
@@ -62,7 +62,7 @@ export async function PATCH(
     id,
     `Updated service "${data.title}"`
   );
-  revalidateVeloraPublic(["services"]);
+  revalidateStudioPublic(["services"]);
   revalidatePath(`/services/${data.slug}`);
   return NextResponse.json({ service: data });
 }
@@ -95,7 +95,7 @@ export async function DELETE(
     id,
     `Deleted service "${existing?.title || id}"`
   );
-  revalidateVeloraPublic(["services"]);
+  revalidateStudioPublic(["services"]);
   if (existing?.slug) {
     revalidatePath(`/services/${existing.slug}`);
   }

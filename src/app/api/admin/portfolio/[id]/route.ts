@@ -7,7 +7,7 @@ import {
   logAdminActivity,
   zodErrorResponse,
 } from "@/lib/admin-api-helpers";
-import { revalidateVeloraPublic } from "@/lib/revalidate";
+import { revalidateStudioPublic } from "@/lib/revalidate";
 import { createClient } from "@/lib/supabase/server";
 import { slugify } from "@/lib/utils";
 
@@ -78,7 +78,7 @@ export async function PATCH(
       id,
       `Updated category "${data.name}"`
     );
-    revalidateVeloraPublic(["portfolio"]);
+    revalidateStudioPublic(["portfolio"]);
     return NextResponse.json({ category: data });
   }
 
@@ -109,7 +109,7 @@ export async function PATCH(
     id,
     `Updated portfolio project "${data.title}"`
   );
-  revalidateVeloraPublic(["portfolio"]);
+  revalidateStudioPublic(["portfolio"]);
   revalidatePath(`/work/${data.slug}`);
   return NextResponse.json({ project: data });
 }
@@ -150,7 +150,7 @@ export async function DELETE(
       id,
       `Deleted category "${existing?.name || id}"`
     );
-    revalidateVeloraPublic(["portfolio"]);
+    revalidateStudioPublic(["portfolio"]);
     return NextResponse.json({ deleted: true });
   }
 
@@ -177,7 +177,7 @@ export async function DELETE(
     id,
     `Deleted portfolio project "${existing?.title || id}"`
   );
-  revalidateVeloraPublic(["portfolio"]);
+  revalidateStudioPublic(["portfolio"]);
   if (existing?.slug) {
     revalidatePath(`/work/${existing.slug}`);
   }
