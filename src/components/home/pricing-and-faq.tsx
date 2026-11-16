@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Check, ChevronDown, Quote } from "lucide-react";
 import { CardTilt } from "@/components/ui/card-tilt";
+import { Scroll3DReveal } from "@/components/ui/scroll-3d-reveal";
 import type { FaqItem, PricingPackage, TestimonialItem } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -44,7 +45,8 @@ export function PricingAndFaq({
             </p>
           </div>
 
-          <div className="mt-14 grid gap-8 lg:grid-cols-3">
+          <Scroll3DReveal depth={6} className="mt-14">
+            <div className="grid gap-8 lg:grid-cols-3">
             {packages.map((pkg) => (
               <CardTilt
                 key={pkg.id}
@@ -216,7 +218,8 @@ export function PricingAndFaq({
               </div>
             </CardTilt>
           ))}
-          </div>
+            </div>
+          </Scroll3DReveal>
         </div>
       </section>
 

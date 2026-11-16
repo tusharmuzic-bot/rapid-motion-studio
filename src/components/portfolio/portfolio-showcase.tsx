@@ -3,8 +3,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, CheckCircle2, Clock, Film, Play, X } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, ChevronLeft, ChevronRight, Clock, Film, Play, X } from "lucide-react";
 import { CardTilt } from "@/components/ui/card-tilt";
+import { Scroll3DReveal } from "@/components/ui/scroll-3d-reveal";
 import type { PortfolioCategory, PortfolioProject } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -182,6 +183,40 @@ export function PortfolioShowcase({
     return typeof limit === "number" ? base.slice(0, limit) : base;
   }, [projects, selectedCategory, limit]);
 
+  // Next / Previous navigation within the 3D cinema modal
+  const currentModalIndex = useMemo(() => {
+    if (!modalProject) return -1;
+    return filtered.findIndex((p) => p.id === modalProject.id);
+  }, [modalProject, filtered]);
+
+  const handleNext = () => {
+    if (filtered.length <= 1 || currentModalIndex === -1) return;
+    const nextIdx = (currentModalIndex + 1) % filtered.length;
+    setModalProject(filtered[nextIdx]);
+  };
+
+  const handlePrev = () => {
+    if (filtered.length <= 1 || currentModalIndex === -1) return;
+    const prevIdx = (currentModalIndex - 1 + filtered.length) % filtered.length;
+    setModalProject(filtered[prevIdx]);
+  };
+
+  useEffect(() => {
+    if (!modalProject) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setModalProject(null);
+      if (e.key === "ArrowRight") handleNext();
+      if (e.key === "ArrowLeft") handlePrev();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [modalProject, currentModalIndex, filtered]);
+
   return (
     <section className="relative bg-charcoal py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6">
@@ -254,7 +289,7 @@ export function PortfolioShowcase({
           })}
         </div>
 
-        {/* Mixed-Ratio Editorial Grid */}
+        {/* Mixed-Ratio Editorial Grid with 3D Scroll Perspective */}
         {filtered.length === 0 ? (
           <div className="mt-12 rounded-3xl border border-ivory/10 bg-obsidian/70 p-12 text-center">
             <Film className="mx-auto h-8 w-8 text-gold/70" />
@@ -266,114 +301,161 @@ export function PortfolioShowcase({
             </p>
           </div>
         ) : (
-          <div className="mt-10 grid grid-flow-dense gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((project, idx) => {
-              const meta = getAspectMeta(project, idx);
-              return (
-                <div key={project.id} className={meta.gridSpan}>
-                  <CardTilt maxTilt={5.5} showGlare={true} className="h-full rounded-3xl">
-                    <motion.article
-                      layout
-                      initial={{ opacity: 0, y: 18 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, amount: 0.1 }}
-                      transition={{ duration: 0.45, delay: Math.min(idx * 0.05, 0.25) }}
-                      className="group flex h-full flex-col overflow-hidden rounded-3xl border border-ivory/10 bg-[#181415] transition-all duration-300 hover:border-gold/45 shadow-[0_12px_36px_rgba(0,0,0,0.45)]"
-                    >
-                      <PortfolioCardMedia
-                        project={project}
-                        frameClass={meta.frameClass}
-                        ratioLabel={meta.ratioLabel}
-                        onSelect={() => setModalProject(project)}
-                      />
+          <Scroll3DReveal depth={6} className="mt-10">
+            <div className="grid grid-flow-dense gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {filtered.map((project, idx) => {
+                const meta = getAspectMeta(project, idx);
+                return (
+                  <div key={project.id} className={meta.gridSpan}>
+                    <CardTilt maxTilt={5.5} showGlare={true} className="h-full rounded-3xl">
+                      <motion.article
+                        layout
+                        initial={{ opacity: 0, y: 18 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.1 }}
+                        transition={{ duration: 0.45, delay: Math.min(idx * 0.05, 0.25) }}
+                        className="group flex h-full flex-col overflow-hidden rounded-3xl border border-ivory/10 bg-[#181415] transition-all duration-300 hover:border-gold/45 shadow-[0_12px_36px_rgba(0,0,0,0.45)]"
+                      >
+                        <PortfolioCardMedia
+                          project={project}
+                          frameClass={meta.frameClass}
+                          ratioLabel={meta.ratioLabel}
+                          onSelect={() => setModalProject(project)}
+                        />
 
-                      <div className="flex flex-1 flex-col justify-between p-6">
-                        <div>
-                          <div className="flex items-center justify-between gap-2">
-                            <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-gold">
-                              {project.category?.name || project.brand_or_industry}
-                            </span>
-                            <span className="font-mono text-[10px] text-ivory/45">
-                              {project.brand_or_industry}
-                            </span>
-                          </div>
-                          <h3 className="mt-2 font-display text-xl font-bold tracking-tight text-ivory">
-                            {project.title}
-                          </h3>
-                          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ivory/70">
-                            {project.short_description}
-                          </p>
-
-                          {project.production_highlights?.length > 0 && (
-                            <div className="mt-3 flex flex-wrap gap-1.5">
-                              {project.production_highlights.slice(0, 2).map((h) => (
-                                <span
-                                  key={h}
-                                  className="rounded-md border border-ivory/10 bg-ivory/[0.03] px-2 py-0.5 text-[10px] text-ivory/65"
-                                >
-                                  {h}
-                                </span>
-                              ))}
+                        <div className="flex flex-1 flex-col justify-between p-6">
+                          <div>
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-gold">
+                                {project.category?.name || project.brand_or_industry}
+                              </span>
+                              <span className="font-mono text-[10px] text-ivory/45">
+                                {project.brand_or_industry}
+                              </span>
                             </div>
-                          )}
-                        </div>
+                            <h3 className="mt-2 font-display text-xl font-bold tracking-tight text-ivory">
+                              {project.title}
+                            </h3>
+                            <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ivory/70">
+                              {project.short_description}
+                            </p>
 
-                        <div className="mt-5 flex items-center justify-between border-t border-ivory/10 pt-4">
-                          <button
-                            type="button"
-                            onClick={() => setModalProject(project)}
-                            className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-gold transition-colors hover:text-ivory"
-                          >
-                            <Play className="h-3.5 w-3.5" />
-                            <span>Watch Preview</span>
-                          </button>
-                          <Link
-                            href={`/work/${project.slug}`}
-                            className="inline-flex items-center gap-1 text-xs font-medium text-ivory/70 transition-colors hover:text-ivory"
-                          >
-                            <span>View Project</span>
-                            <ArrowUpRight className="h-3.5 w-3.5" />
-                          </Link>
+                            {project.production_highlights?.length > 0 && (
+                              <div className="mt-3 flex flex-wrap gap-1.5">
+                                {project.production_highlights.slice(0, 2).map((h) => (
+                                  <span
+                                    key={h}
+                                    className="rounded-md border border-ivory/10 bg-ivory/[0.03] px-2 py-0.5 text-[10px] text-ivory/65"
+                                  >
+                                    {h}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="mt-5 flex items-center justify-between border-t border-ivory/10 pt-4">
+                            <button
+                              type="button"
+                              onClick={() => setModalProject(project)}
+                              className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-gold transition-colors hover:text-ivory"
+                            >
+                              <Play className="h-3.5 w-3.5" />
+                              <span>Watch Preview</span>
+                            </button>
+                            <Link
+                              href={`/work/${project.slug}`}
+                              className="inline-flex items-center gap-1 text-xs font-medium text-ivory/70 transition-colors hover:text-ivory"
+                            >
+                              <span>View Project</span>
+                              <ArrowUpRight className="h-3.5 w-3.5" />
+                            </Link>
+                          </div>
                         </div>
-                      </div>
-                    </motion.article>
-                  </CardTilt>
-                </div>
-              );
-            })}
-          </div>
+                      </motion.article>
+                    </CardTilt>
+                  </div>
+                );
+              })}
+            </div>
+          </Scroll3DReveal>
         )}
       </div>
 
-      {/* Fullscreen Project Cinema Modal */}
+      {/* 3D Cinema Lightbox Theatre Experience */}
       <AnimatePresence>
         {modalProject && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.35 }}
             onClick={() => setModalProject(null)}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/88 p-4 backdrop-blur-xl sm:p-6"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/92 p-3 backdrop-blur-2xl sm:p-6"
+            style={{ perspective: "1600px" }}
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96, y: 16 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: 16 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative max-h-[92vh] w-full max-w-5xl overflow-y-auto rounded-3xl border border-gold/30 bg-charcoal shadow-2xl"
-            >
-              <button
-                type="button"
-                onClick={() => setModalProject(null)}
-                aria-label="Close project viewer"
-                className="absolute top-4 right-4 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full border border-ivory/25 bg-obsidian/85 text-ivory transition-colors hover:border-gold hover:text-gold"
-              >
-                <X className="h-5 w-5" />
-              </button>
+            {/* Ambient Volumetric Beam */}
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(243,90,42,0.14),transparent_65%)]" />
 
-              <div className="relative aspect-video w-full bg-black">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.86, rotateX: 16, z: -120 }}
+              animate={{ opacity: 1, scale: 1, rotateX: 0, z: 0 }}
+              exit={{ opacity: 0, scale: 0.88, rotateX: -14, z: -80 }}
+              transition={{ type: "spring", damping: 26, stiffness: 280, mass: 0.85 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-h-[94vh] w-full max-w-5xl overflow-y-auto rounded-3xl border border-gold/40 bg-[#120F10] shadow-[0_30px_100px_-20px_rgba(0,0,0,0.9),0_0_80px_rgba(243,90,42,0.22)]"
+            >
+              {/* Cinema HUD Top Bar */}
+              <div className="sticky top-0 z-30 flex items-center justify-between border-b border-ivory/10 bg-[#120F10]/95 px-6 py-4 backdrop-blur-xl">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-2 w-2 relative">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
+                  </span>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-ivory/80">
+                    MASTER 4K CINEMA // {currentModalIndex + 1} OF {filtered.length}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {/* Prev / Next Quick Controls */}
+                  {filtered.length > 1 && (
+                    <div className="flex items-center gap-1 border-r border-ivory/15 pr-3 mr-1">
+                      <button
+                        type="button"
+                        onClick={handlePrev}
+                        aria-label="Previous project"
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-ivory/20 bg-ivory/[0.05] text-ivory transition-colors hover:border-gold hover:text-gold"
+                      >
+                        <ChevronLeft className="h-4 w-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleNext}
+                        aria-label="Next project"
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-ivory/20 bg-ivory/[0.05] text-ivory transition-colors hover:border-gold hover:text-gold"
+                      >
+                        <ChevronRight className="h-4 w-4" />
+                      </button>
+                    </div>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={() => setModalProject(null)}
+                    aria-label="Close project viewer"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-ivory/25 bg-ivory/[0.08] text-ivory transition-colors hover:border-gold hover:text-gold"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* 3D Media Stage */}
+              <div className="relative aspect-video w-full overflow-hidden bg-black shadow-inner">
                 {modalProject.video_url ? (
                   <video
+                    key={modalProject.video_url}
                     src={modalProject.video_url}
                     poster={modalProject.thumbnail_url}
                     controls
@@ -389,6 +471,15 @@ export function PortfolioShowcase({
                     className="h-full w-full object-cover"
                   />
                 )}
+
+                {/* Floating Cinema Overlay Tag */}
+                <div className="pointer-events-none absolute bottom-4 left-4 flex items-center gap-2 rounded-full border border-ivory/20 bg-black/60 px-3 py-1 font-mono text-[9px] uppercase tracking-wider text-ivory/90 backdrop-blur-md">
+                  <span>PRORES 4444</span>
+                  <span>•</span>
+                  <span>ACEScg COLOR</span>
+                  <span>•</span>
+                  <span>48kHz SPATIAL</span>
+                </div>
               </div>
 
               <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-12">

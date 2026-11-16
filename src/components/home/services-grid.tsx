@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Check } from "lucide-react";
 import { CardTilt } from "@/components/ui/card-tilt";
+import { Scroll3DReveal } from "@/components/ui/scroll-3d-reveal";
 import type { ServiceItem } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -38,8 +39,9 @@ export function ServicesGrid({ services }: { services: ServiceItem[] }) {
           </Link>
         </div>
 
-        {/* Desktop Interactive Split Stage */}
-        <div className="mt-12 grid gap-10 lg:grid-cols-12 lg:items-start">
+        {/* Desktop Interactive Split Stage with 3D Depth */}
+        <Scroll3DReveal depth={6} className="mt-12">
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
           {/* Interactive Numbered Index */}
           <div className="divide-y divide-ivory/10 border-t border-b border-ivory/10 lg:col-span-6">
             {services.map((service, idx) => {
@@ -192,7 +194,8 @@ export function ServicesGrid({ services }: { services: ServiceItem[] }) {
             </div>
           )}
         </div>
-      </div>
-    </section>
-  );
+      </Scroll3DReveal>
+    </div>
+  </section>
+);
 }

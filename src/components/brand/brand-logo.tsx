@@ -42,24 +42,23 @@ export function BrandLogo({
       )}
       aria-label={brandName}
     >
-      {/* Clean un-cropped logo mark preserving natural aspect ratio (3:1 horizontal RMS monogram) */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={resolvedLogoSrc}
         alt={`${brandName} logo`}
-        className="h-6 w-auto max-w-[112px] object-contain transition-transform duration-300 group-hover:scale-[1.03] sm:h-7"
+        className="h-8 w-auto max-w-[130px] object-contain transition-all duration-300 group-hover:scale-[1.04] group-hover:drop-shadow-[0_0_14px_rgba(243,90,42,0.45)] sm:h-9"
       />
 
       {!compact && (
         <span
           className={cn(
-            "hidden flex-col border-l pl-3 leading-none sm:flex",
+            "hidden flex-col border-l pl-3.5 leading-none sm:flex",
             isIvorySurface ? "border-charcoal/20" : "border-ivory/20"
           )}
         >
           <span
             className={cn(
-              "font-display text-[11px] font-bold tracking-[0.22em] uppercase",
+              "font-display text-[11px] font-bold tracking-[0.24em] uppercase transition-colors group-hover:text-gold",
               isIvorySurface ? "text-charcoal" : "text-ivory"
             )}
           >
@@ -67,8 +66,8 @@ export function BrandLogo({
           </span>
           <span
             className={cn(
-              "mt-1 font-mono text-[9px] font-medium tracking-[0.28em] uppercase",
-              isIvorySurface ? "text-burgundy/80" : "text-gold/85"
+              "mt-1 font-mono text-[9px] font-semibold tracking-[0.3em] uppercase transition-colors",
+              isIvorySurface ? "text-burgundy/90" : "text-[#F35A2A] group-hover:text-gold"
             )}
           >
             {remaining}

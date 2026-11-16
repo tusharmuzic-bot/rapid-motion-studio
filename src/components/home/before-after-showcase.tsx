@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { MoveHorizontal } from "lucide-react";
+import { Scroll3DReveal } from "@/components/ui/scroll-3d-reveal";
 import type { BeforeAfterComparison } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -116,8 +117,9 @@ export function BeforeAfterShowcase({
           })}
         </div>
 
-        {/* High-Contrast Charcoal Comparison Theater inside Ivory Frame */}
-        <div className="mt-8 overflow-hidden rounded-3xl border border-charcoal/15 bg-obsidian p-2 shadow-[0_32px_70px_-28px_rgba(21,19,19,0.45)] sm:p-3">
+        {/* High-Contrast Charcoal Comparison Theater inside Ivory Frame with 3D Scroll Depth */}
+        <Scroll3DReveal depth={7} className="mt-8">
+          <div className="overflow-hidden rounded-3xl border border-charcoal/15 bg-obsidian p-2 shadow-[0_32px_70px_-28px_rgba(21,19,19,0.45)] sm:p-3">
           <div
             ref={containerRef}
             data-cursor="DRAG"
@@ -238,7 +240,8 @@ export function BeforeAfterShowcase({
             </div>
           </div>
         </div>
-      </div>
-    </section>
-  );
+      </Scroll3DReveal>
+    </div>
+  </section>
+);
 }

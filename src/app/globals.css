@@ -9,6 +9,7 @@
   --rms-gold-warm: #b78b50;
   --rms-ivory: #f5f0e8;
   --rms-rose: #a77c80;
+  --rms-orange: #f35a2a;
 
   --background: #151313;
   --foreground: #f5f0e8;
@@ -25,6 +26,7 @@
   --color-gold-warm: #b78b50;
   --color-ivory: #f5f0e8;
   --color-rose: #a77c80;
+  --color-brand-orange: #f35a2a;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
