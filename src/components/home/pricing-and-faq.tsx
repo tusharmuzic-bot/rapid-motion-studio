@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Check, ChevronDown, Quote } from "lucide-react";
+import { CardTilt } from "@/components/ui/card-tilt";
 import type { FaqItem, PricingPackage, TestimonialItem } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -45,15 +46,20 @@ export function PricingAndFaq({
 
           <div className="mt-14 grid gap-8 lg:grid-cols-3">
             {packages.map((pkg) => (
-              <div
+              <CardTilt
                 key={pkg.id}
-                className={cn(
-                  "flex flex-col justify-between rounded-3xl border p-8 transition-all duration-300",
-                  pkg.is_highlighted
-                    ? "border-burgundy bg-charcoal text-ivory shadow-[0_28px_70px_-28px_rgba(41,11,18,0.45)]"
-                    : "border-charcoal/15 bg-white/60 text-charcoal hover:border-burgundy/40"
-                )}
+                maxTilt={4}
+                showGlare={true}
+                className="h-full rounded-3xl"
               >
+                <div
+                  className={cn(
+                    "flex h-full flex-col justify-between rounded-3xl border p-8 transition-all duration-300",
+                    pkg.is_highlighted
+                      ? "border-burgundy bg-charcoal text-ivory shadow-[0_28px_70px_-28px_rgba(41,11,18,0.45)]"
+                      : "border-charcoal/15 bg-white/60 text-charcoal hover:border-burgundy/40"
+                  )}
+                >
                 <div>
                   <div className="flex items-center justify-between gap-3">
                     <span
@@ -195,10 +201,11 @@ export function PricingAndFaq({
                 <div className="mt-8">
                   <Link
                     href={`/start-project?package=${encodeURIComponent(pkg.name)}`}
+                    data-magnetic="true"
                     className={cn(
                       "inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-xs font-bold uppercase tracking-[0.16em] transition-all",
                       pkg.is_highlighted
-                        ? "bg-ivory text-charcoal hover:bg-gold"
+                        ? "bg-ivory text-charcoal hover:bg-gold shadow-md hover:shadow-gold/20"
                         : "border border-charcoal bg-charcoal text-ivory hover:bg-burgundy hover:border-burgundy"
                     )}
                   >
@@ -207,7 +214,8 @@ export function PricingAndFaq({
                   </Link>
                 </div>
               </div>
-            ))}
+            </CardTilt>
+          ))}
           </div>
         </div>
       </section>

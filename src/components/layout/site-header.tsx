@@ -51,12 +51,12 @@ export function SiteHeader({ settings }: { settings: SiteSettings }) {
   return (
     <>
       {settings.announcement_enabled && settings.announcement_text && (
-        <div className="relative z-50 border-b border-ivory/10 bg-[#1c0b10] px-4 py-2 text-center text-[11px] font-medium tracking-[0.12em] text-ivory/90 uppercase">
+        <div className="relative z-50 border-b border-ivory/10 bg-[#1c0b10] px-4 py-2 text-center text-[11px] font-medium tracking-[0.14em] text-ivory/90 uppercase">
           <span className="inline-flex items-center gap-2.5">
-            <span
-              className="h-1.5 w-1.5 rounded-full bg-gold"
-              aria-hidden="true"
-            />
+            <span className="relative flex h-2 w-2">
+              <span className="animate-studio-beacon absolute inline-flex h-full w-full rounded-full bg-gold opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
+            </span>
             {settings.announcement_text}
           </span>
         </div>
@@ -117,13 +117,15 @@ export function SiteHeader({ settings }: { settings: SiteSettings }) {
           <div className="hidden items-center gap-2.5 lg:flex">
             <Link
               href="/start-project?intent=quote"
+              data-magnetic="true"
               className="rounded-full border border-ivory/15 px-4 py-2 text-xs font-medium tracking-[0.06em] text-ivory/80 transition-colors hover:border-ivory/35 hover:text-ivory"
             >
               Get a Quote
             </Link>
             <Link
               href="/start-project"
-              className="group inline-flex items-center gap-1.5 rounded-full bg-ivory px-4 py-2 text-xs font-semibold tracking-[0.08em] text-charcoal transition-all duration-300 hover:bg-gold"
+              data-magnetic="true"
+              className="group inline-flex items-center gap-1.5 rounded-full bg-ivory px-4 py-2 text-xs font-semibold tracking-[0.08em] text-charcoal transition-all duration-300 hover:bg-gold hover:shadow-[0_0_18px_rgba(216,180,119,0.45)]"
             >
               <span>Start a Project</span>
               <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -132,6 +134,7 @@ export function SiteHeader({ settings }: { settings: SiteSettings }) {
 
           <button
             type="button"
+            data-magnetic="true"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={mobileOpen}

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, CheckCircle2, Clock, Film, Play, X } from "lucide-react";
+import { CardTilt } from "@/components/ui/card-tilt";
 import type { PortfolioCategory, PortfolioProject } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -92,7 +93,7 @@ function PortfolioCardMedia({
       onClick={onSelect}
       onMouseEnter={startHover}
       onMouseLeave={stopHover}
-      data-cursor="watch"
+      data-cursor="PLAY"
       aria-label={`Watch ${project.title}`}
       className={cn(
         "relative w-full overflow-hidden bg-obsidian text-left focus:outline-none",
@@ -218,12 +219,13 @@ export function PortfolioShowcase({
           <button
             type="button"
             role="tab"
+            data-magnetic="true"
             aria-selected={selectedCategory === "all"}
             onClick={() => setSelectedCategory("all")}
             className={cn(
               "rounded-full border px-4 py-2 text-xs font-medium transition-all duration-200",
               selectedCategory === "all"
-                ? "border-gold bg-gold text-charcoal font-semibold"
+                ? "border-gold bg-gold text-charcoal font-semibold shadow-[0_0_14px_rgba(216,180,119,0.35)]"
                 : "border-ivory/15 text-ivory/70 hover:border-ivory/40 hover:text-ivory"
             )}
           >
@@ -236,12 +238,13 @@ export function PortfolioShowcase({
                 key={cat.id}
                 type="button"
                 role="tab"
+                data-magnetic="true"
                 aria-selected={active}
                 onClick={() => setSelectedCategory(cat.slug)}
                 className={cn(
                   "rounded-full border px-4 py-2 text-xs font-medium transition-all duration-200",
                   active
-                    ? "border-gold bg-gold text-charcoal font-semibold"
+                    ? "border-gold bg-gold text-charcoal font-semibold shadow-[0_0_14px_rgba(216,180,119,0.35)]"
                     : "border-ivory/15 text-ivory/70 hover:border-ivory/40 hover:text-ivory"
                 )}
               >
@@ -267,75 +270,75 @@ export function PortfolioShowcase({
             {filtered.map((project, idx) => {
               const meta = getAspectMeta(project, idx);
               return (
-                <motion.article
-                  key={project.id}
-                  layout
-                  initial={{ opacity: 0, y: 18 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.1 }}
-                  transition={{ duration: 0.45, delay: Math.min(idx * 0.05, 0.25) }}
-                  className={cn(
-                    "group flex flex-col overflow-hidden rounded-3xl border border-ivory/10 bg-[#181415] transition-all duration-300 hover:border-gold/40",
-                    meta.gridSpan
-                  )}
-                >
-                  <PortfolioCardMedia
-                    project={project}
-                    frameClass={meta.frameClass}
-                    ratioLabel={meta.ratioLabel}
-                    onSelect={() => setModalProject(project)}
-                  />
+                <div key={project.id} className={meta.gridSpan}>
+                  <CardTilt maxTilt={5.5} showGlare={true} className="h-full rounded-3xl">
+                    <motion.article
+                      layout
+                      initial={{ opacity: 0, y: 18 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.1 }}
+                      transition={{ duration: 0.45, delay: Math.min(idx * 0.05, 0.25) }}
+                      className="group flex h-full flex-col overflow-hidden rounded-3xl border border-ivory/10 bg-[#181415] transition-all duration-300 hover:border-gold/45 shadow-[0_12px_36px_rgba(0,0,0,0.45)]"
+                    >
+                      <PortfolioCardMedia
+                        project={project}
+                        frameClass={meta.frameClass}
+                        ratioLabel={meta.ratioLabel}
+                        onSelect={() => setModalProject(project)}
+                      />
 
-                  <div className="flex flex-1 flex-col justify-between p-6">
-                    <div>
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-gold">
-                          {project.category?.name || project.brand_or_industry}
-                        </span>
-                        <span className="font-mono text-[10px] text-ivory/45">
-                          {project.brand_or_industry}
-                        </span>
-                      </div>
-                      <h3 className="mt-2 font-display text-xl font-bold tracking-tight text-ivory">
-                        {project.title}
-                      </h3>
-                      <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ivory/70">
-                        {project.short_description}
-                      </p>
-
-                      {project.production_highlights?.length > 0 && (
-                        <div className="mt-3 flex flex-wrap gap-1.5">
-                          {project.production_highlights.slice(0, 2).map((h) => (
-                            <span
-                              key={h}
-                              className="rounded-md border border-ivory/10 bg-ivory/[0.03] px-2 py-0.5 text-[10px] text-ivory/65"
-                            >
-                              {h}
+                      <div className="flex flex-1 flex-col justify-between p-6">
+                        <div>
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-gold">
+                              {project.category?.name || project.brand_or_industry}
                             </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
+                            <span className="font-mono text-[10px] text-ivory/45">
+                              {project.brand_or_industry}
+                            </span>
+                          </div>
+                          <h3 className="mt-2 font-display text-xl font-bold tracking-tight text-ivory">
+                            {project.title}
+                          </h3>
+                          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ivory/70">
+                            {project.short_description}
+                          </p>
 
-                    <div className="mt-5 flex items-center justify-between border-t border-ivory/10 pt-4">
-                      <button
-                        type="button"
-                        onClick={() => setModalProject(project)}
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-gold transition-colors hover:text-ivory"
-                      >
-                        <Play className="h-3.5 w-3.5" />
-                        <span>Watch Preview</span>
-                      </button>
-                      <Link
-                        href={`/work/${project.slug}`}
-                        className="inline-flex items-center gap-1 text-xs font-medium text-ivory/70 transition-colors hover:text-ivory"
-                      >
-                        <span>View Project</span>
-                        <ArrowUpRight className="h-3.5 w-3.5" />
-                      </Link>
-                    </div>
-                  </div>
-                </motion.article>
+                          {project.production_highlights?.length > 0 && (
+                            <div className="mt-3 flex flex-wrap gap-1.5">
+                              {project.production_highlights.slice(0, 2).map((h) => (
+                                <span
+                                  key={h}
+                                  className="rounded-md border border-ivory/10 bg-ivory/[0.03] px-2 py-0.5 text-[10px] text-ivory/65"
+                                >
+                                  {h}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="mt-5 flex items-center justify-between border-t border-ivory/10 pt-4">
+                          <button
+                            type="button"
+                            onClick={() => setModalProject(project)}
+                            className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-gold transition-colors hover:text-ivory"
+                          >
+                            <Play className="h-3.5 w-3.5" />
+                            <span>Watch Preview</span>
+                          </button>
+                          <Link
+                            href={`/work/${project.slug}`}
+                            className="inline-flex items-center gap-1 text-xs font-medium text-ivory/70 transition-colors hover:text-ivory"
+                          >
+                            <span>View Project</span>
+                            <ArrowUpRight className="h-3.5 w-3.5" />
+                          </Link>
+                        </div>
+                      </div>
+                    </motion.article>
+                  </CardTilt>
+                </div>
               );
             })}
           </div>

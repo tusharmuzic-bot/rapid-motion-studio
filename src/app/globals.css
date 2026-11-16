@@ -129,6 +129,65 @@ body {
     radial-gradient(ellipse 60% 45% at 50% 96%, rgba(41, 11, 18, 0.32), transparent 72%);
 }
 
+/* 60fps Hardware-Accelerated Utilities */
+.gpu-layer {
+  transform: translate3d(0, 0, 0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Realistic 3D Card Optics & Specular Glare */
+.card-specular-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: var(--sheen-opacity, 0);
+  background: radial-gradient(
+    circle 320px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(216, 180, 119, 0.16),
+    rgba(245, 240, 232, 0.04) 40%,
+    transparent 75%
+  );
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  mix-blend-mode: screen;
+  z-index: 20;
+}
+
+/* Equalizer Bars Animation for Studio Audio */
+@keyframes audio-pulse-1 {
+  0%, 100% { height: 4px; }
+  50% { height: 16px; }
+}
+@keyframes audio-pulse-2 {
+  0%, 100% { height: 14px; }
+  50% { height: 5px; }
+}
+@keyframes audio-pulse-3 {
+  0%, 100% { height: 8px; }
+  50% { height: 18px; }
+}
+@keyframes audio-pulse-4 {
+  0%, 100% { height: 16px; }
+  50% { height: 6px; }
+}
+
+.animate-audio-bar-1 { animation: audio-pulse-1 0.9s ease-in-out infinite; }
+.animate-audio-bar-2 { animation: audio-pulse-2 0.75s ease-in-out infinite 0.15s; }
+.animate-audio-bar-3 { animation: audio-pulse-3 0.85s ease-in-out infinite 0.3s; }
+.animate-audio-bar-4 { animation: audio-pulse-4 1.1s ease-in-out infinite 0.1s; }
+
+/* Subtle Ambient Live Beacon */
+@keyframes studio-beacon {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.35); opacity: 0.45; }
+}
+
+.animate-studio-beacon {
+  animation: studio-beacon 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 .subtle-grid {
   background-image:
     linear-gradient(to right, rgba(245, 240, 232, 0.03) 1px, transparent 1px),

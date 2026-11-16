@@ -52,13 +52,15 @@ export function SiteFooter({ settings, services, ctaContent }: SiteFooterProps) 
           <div className="flex flex-wrap items-center gap-4">
             <Link
               href="/start-project"
-              className="group inline-flex items-center gap-2.5 rounded-full bg-ivory px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] text-charcoal transition-all duration-300 hover:bg-gold"
+              data-magnetic="true"
+              className="group inline-flex items-center gap-2.5 rounded-full bg-ivory px-8 py-4 text-xs font-bold uppercase tracking-[0.18em] text-charcoal transition-all duration-300 hover:bg-gold hover:shadow-[0_0_24px_rgba(216,180,119,0.4)]"
             >
               <span>{ctaLabel}</span>
               <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
             <Link
               href="/work"
+              data-magnetic="true"
               className="inline-flex items-center gap-2 rounded-full border border-ivory/20 px-7 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-ivory/85 transition-colors hover:border-gold/50 hover:text-ivory"
             >
               EXPLORE OUR WORK

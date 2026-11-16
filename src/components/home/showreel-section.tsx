@@ -166,11 +166,12 @@ export function ShowreelSection({
                 <button
                   key={ch.label}
                   type="button"
+                  data-magnetic="true"
                   onClick={() => jumpChapter(ch.sec)}
                   className={cn(
-                    "rounded-full border px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] transition-colors",
+                    "rounded-full border px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] transition-all",
                     currentTime >= ch.sec && currentTime < ch.sec + 4.3
-                      ? "border-burgundy bg-burgundy text-ivory"
+                      ? "border-burgundy bg-burgundy text-ivory shadow-[0_4px_14px_rgba(75,16,27,0.3)]"
                       : "border-charcoal/20 text-charcoal/70 hover:border-burgundy hover:text-burgundy"
                   )}
                 >
@@ -186,7 +187,7 @@ export function ShowreelSection({
           {/* Framed Charcoal Theater Player on Ivory Canvas */}
           <div
             ref={wrapperRef}
-            data-cursor={playing ? "pause" : "play"}
+            data-cursor={playing ? "PAUSE" : "PLAY"}
             className="mt-6 relative overflow-hidden rounded-3xl border border-charcoal/15 bg-obsidian p-2 shadow-[0_32px_80px_-28px_rgba(21,19,19,0.45)]"
           >
             <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black">
@@ -214,10 +215,12 @@ export function ShowreelSection({
                 <button
                   type="button"
                   onClick={togglePlay}
+                  data-magnetic="true"
                   aria-label="Play Studio Showreel"
                   className="group absolute inset-0 flex flex-col items-center justify-center bg-charcoal/35 backdrop-blur-[2px] transition-colors hover:bg-charcoal/20"
                 >
-                  <span className="flex h-20 w-20 items-center justify-center rounded-full border border-gold/75 bg-obsidian/80 text-ivory shadow-2xl transition-transform duration-300 group-hover:scale-110">
+                  <span className="relative flex h-20 w-20 items-center justify-center rounded-full border border-gold/85 bg-obsidian/90 text-ivory shadow-[0_0_36px_rgba(216,180,119,0.45)] transition-transform duration-300 group-hover:scale-110">
+                    <span className="animate-studio-beacon absolute inset-0 rounded-full border border-gold/40" />
                     <Play className="h-7 w-7 translate-x-0.5 fill-gold text-gold" />
                   </span>
                   <span className="mt-4 font-mono text-[11px] uppercase tracking-[0.26em] text-ivory">

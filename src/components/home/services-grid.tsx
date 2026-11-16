@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Check } from "lucide-react";
+import { CardTilt } from "@/components/ui/card-tilt";
 import type { ServiceItem } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -105,85 +106,89 @@ export function ServicesGrid({ services }: { services: ServiceItem[] }) {
           {/* Sticky Live Visual Stage */}
           {current && (
             <div className="lg:sticky lg:top-28 lg:col-span-6">
-              <div className="overflow-hidden rounded-3xl border border-ivory/15 bg-[#161213] p-4 shadow-2xl sm:p-5">
-                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-black">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={current.id}
-                      initial={{ opacity: 0.25, scale: 1.03 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0.25 }}
-                      transition={{ duration: 0.4, ease: "easeOut" }}
-                      className="h-full w-full"
-                    >
-                      {current.video_url ? (
-                        <video
-                          src={current.video_url}
-                          poster={current.hero_image_url}
-                          autoPlay
-                          loop
-                          muted
-                          playsInline
-                          className="h-full w-full object-cover"
-                        />
-                      ) : (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={
-                            current.hero_image_url ||
-                            "/media/generated/perfume-after.jpg"
-                          }
-                          alt={current.title}
-                          className="h-full w-full object-cover"
-                        />
-                      )}
-                    </motion.div>
-                  </AnimatePresence>
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-obsidian/80 via-transparent to-transparent" />
-                  <span className="absolute top-4 left-4 rounded-full border border-gold/40 bg-obsidian/80 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-gold backdrop-blur-md">
-                    DISCIPLINE {current.number_label}
-                  </span>
-                </div>
+              <CardTilt maxTilt={4.5} showGlare={true} className="rounded-3xl">
+                <div className="overflow-hidden rounded-3xl border border-ivory/15 bg-[#161213] p-4 shadow-2xl sm:p-5">
+                  <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-black">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={current.id}
+                        initial={{ opacity: 0.25, scale: 1.03 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0.25 }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                        className="h-full w-full"
+                      >
+                        {current.video_url ? (
+                          <video
+                            src={current.video_url}
+                            poster={current.hero_image_url}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={
+                              current.hero_image_url ||
+                              "/media/generated/perfume-after.jpg"
+                            }
+                            alt={current.title}
+                            className="h-full w-full object-cover"
+                          />
+                        )}
+                      </motion.div>
+                    </AnimatePresence>
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-obsidian/80 via-transparent to-transparent" />
+                    <span className="absolute top-4 left-4 rounded-full border border-gold/40 bg-obsidian/80 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-gold backdrop-blur-md">
+                      DISCIPLINE {current.number_label}
+                    </span>
+                  </div>
 
-                <div className="mt-6 space-y-4">
-                  <h4 className="font-display text-2xl font-bold text-ivory">
-                    {current.title}
-                  </h4>
-                  <p className="text-sm leading-relaxed text-ivory/75">
-                    {current.business_value || current.short_description}
-                  </p>
+                  <div className="mt-6 space-y-4">
+                    <h4 className="font-display text-2xl font-bold text-ivory">
+                      {current.title}
+                    </h4>
+                    <p className="text-sm leading-relaxed text-ivory/75">
+                      {current.business_value || current.short_description}
+                    </p>
 
-                  {current.deliverables?.length > 0 && (
-                    <div className="grid gap-2 border-t border-ivory/10 pt-4 sm:grid-cols-2">
-                      {current.deliverables.slice(0, 4).map((deliv) => (
-                        <div
-                          key={deliv}
-                          className="flex items-start gap-2 text-xs text-ivory/80"
-                        >
-                          <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
-                          <span>{deliv}</span>
-                        </div>
-                      ))}
+                    {current.deliverables?.length > 0 && (
+                      <div className="grid gap-2 border-t border-ivory/10 pt-4 sm:grid-cols-2">
+                        {current.deliverables.slice(0, 4).map((deliv) => (
+                          <div
+                            key={deliv}
+                            className="flex items-start gap-2 text-xs text-ivory/80"
+                          >
+                            <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
+                            <span>{deliv}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="flex flex-wrap gap-3 pt-2">
+                      <Link
+                        href={`/services/${current.slug}`}
+                        data-magnetic="true"
+                        className="inline-flex items-center gap-2 rounded-full bg-ivory px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-charcoal transition hover:bg-gold shadow-[0_4px_16px_rgba(245,240,232,0.15)]"
+                      >
+                        <span>Explore Service</span>
+                        <ArrowUpRight className="h-3.5 w-3.5" />
+                      </Link>
+                      <Link
+                        href={`/start-project?service=${encodeURIComponent(current.title)}`}
+                        data-magnetic="true"
+                        className="inline-flex items-center gap-2 rounded-full border border-ivory/25 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-ivory transition hover:border-gold hover:text-gold"
+                      >
+                        Start Brief
+                      </Link>
                     </div>
-                  )}
-
-                  <div className="flex flex-wrap gap-3 pt-2">
-                    <Link
-                      href={`/services/${current.slug}`}
-                      className="inline-flex items-center gap-2 rounded-full bg-ivory px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-charcoal transition hover:bg-gold"
-                    >
-                      <span>Explore Service</span>
-                      <ArrowUpRight className="h-3.5 w-3.5" />
-                    </Link>
-                    <Link
-                      href={`/start-project?service=${encodeURIComponent(current.title)}`}
-                      className="inline-flex items-center gap-2 rounded-full border border-ivory/25 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.16em] text-ivory transition hover:border-gold hover:text-gold"
-                    >
-                      Start Brief
-                    </Link>
                   </div>
                 </div>
-              </div>
+              </CardTilt>
             </div>
           )}
         </div>

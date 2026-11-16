@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { CardTilt } from "@/components/ui/card-tilt";
 import { BRAND } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
@@ -338,24 +339,25 @@ export function ProcessAndAdvantages({
 
             <div className="grid gap-4 sm:grid-cols-2 lg:col-span-7">
               {btsStages.map((stage, idx) => (
-                <motion.div
-                  key={stage.code}
-                  initial={{ opacity: 0, x: 14 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, amount: 0.1 }}
-                  transition={{ duration: 0.35, delay: idx * 0.05 }}
-                  className="rounded-2xl border border-ivory/10 bg-[#151213] p-5 transition-colors hover:border-gold/35"
-                >
-                  <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
-                    STAGE {stage.code}
-                  </span>
-                  <h3 className="mt-2 font-display text-base font-bold text-ivory">
-                    {stage.title}
-                  </h3>
-                  <p className="mt-1.5 text-xs leading-relaxed text-ivory/68">
-                    {stage.detail}
-                  </p>
-                </motion.div>
+                <CardTilt key={stage.code} maxTilt={4} showGlare={true} className="rounded-2xl">
+                  <motion.div
+                    initial={{ opacity: 0, x: 14 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.1 }}
+                    transition={{ duration: 0.35, delay: idx * 0.05 }}
+                    className="h-full rounded-2xl border border-ivory/10 bg-[#151213] p-5 transition-colors hover:border-gold/45 shadow-[0_8px_24px_rgba(0,0,0,0.3)]"
+                  >
+                    <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
+                      STAGE {stage.code}
+                    </span>
+                    <h3 className="mt-2 font-display text-base font-bold text-ivory">
+                      {stage.title}
+                    </h3>
+                    <p className="mt-1.5 text-xs leading-relaxed text-ivory/68">
+                      {stage.detail}
+                    </p>
+                  </motion.div>
+                </CardTilt>
               ))}
             </div>
           </div>
@@ -430,41 +432,44 @@ export function ProcessAndAdvantages({
             </div>
 
             <div className="lg:sticky lg:top-28 lg:col-span-5">
-              <div className="overflow-hidden rounded-3xl border border-ivory/15 bg-obsidian p-3 shadow-2xl">
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-charcoal">
-                  <AnimatePresence mode="wait">
-                    <motion.img
-                      key={`${activeIndustry.name}-${activeIndustry.image}`}
-                      src={activeIndustry.image}
-                      alt={activeIndustry.name}
-                      initial={{ opacity: 0.3, scale: 1.04 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0.3 }}
-                      transition={{ duration: 0.35 }}
-                      className="h-full w-full object-cover"
-                    />
-                  </AnimatePresence>
-                  <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
-                    <div>
-                      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-gold">
-                        {activeIndustry.tag}
-                      </p>
-                      <p className="mt-1 font-display text-xl font-bold text-ivory">
-                        {activeIndustry.name}
-                      </p>
+              <CardTilt maxTilt={4} showGlare={true} className="rounded-3xl">
+                <div className="overflow-hidden rounded-3xl border border-ivory/15 bg-obsidian p-3 shadow-2xl">
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-charcoal">
+                    <AnimatePresence mode="wait">
+                      <motion.img
+                        key={`${activeIndustry.name}-${activeIndustry.image}`}
+                        src={activeIndustry.image}
+                        alt={activeIndustry.name}
+                        initial={{ opacity: 0.3, scale: 1.04 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0.3 }}
+                        transition={{ duration: 0.35 }}
+                        className="h-full w-full object-cover"
+                      />
+                    </AnimatePresence>
+                    <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
+                      <div>
+                        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-gold">
+                          {activeIndustry.tag}
+                        </p>
+                        <p className="mt-1 font-display text-xl font-bold text-ivory">
+                          {activeIndustry.name}
+                        </p>
+                      </div>
+                      <Link
+                        href={`/start-project?industry=${encodeURIComponent(
+                          activeIndustry.name
+                        )}`}
+                        data-magnetic="true"
+                        className="rounded-full bg-ivory px-4 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-charcoal transition hover:bg-gold shadow-[0_4px_12px_rgba(245,240,232,0.2)]"
+                      >
+                        Brief Sector
+                      </Link>
                     </div>
-                    <Link
-                      href={`/start-project?industry=${encodeURIComponent(
-                        activeIndustry.name
-                      )}`}
-                      className="rounded-full bg-ivory px-4 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-charcoal transition hover:bg-gold"
-                    >
-                      Brief Sector
-                    </Link>
                   </div>
                 </div>
-              </div>
+              </CardTilt>
             </div>
           </div>
         </div>

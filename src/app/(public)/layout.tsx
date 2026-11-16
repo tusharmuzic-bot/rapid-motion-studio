@@ -1,3 +1,4 @@
+import { ScrollProgress } from "@/components/layout/scroll-progress";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { StudioCursor } from "@/components/ui/studio-cursor";
@@ -20,6 +21,7 @@ export default async function PublicLayout({
 
   return (
     <div className="relative flex min-h-screen flex-col bg-charcoal studio-ambient-bg">
+      <ScrollProgress />
       <StudioCursor />
       <SiteHeader settings={settings} />
       <main className="flex-1">{children}</main>

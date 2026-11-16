@@ -97,6 +97,7 @@ export function BeforeAfterShowcase({
                 key={item.id}
                 type="button"
                 role="tab"
+                data-magnetic="true"
                 aria-selected={selected}
                 onClick={() => {
                   setActiveIdx(idx);
@@ -105,7 +106,7 @@ export function BeforeAfterShowcase({
                 className={cn(
                   "rounded-full border px-4 py-2 text-xs font-semibold transition-all duration-200",
                   selected
-                    ? "border-burgundy bg-burgundy text-ivory"
+                    ? "border-burgundy bg-burgundy text-ivory shadow-[0_4px_16px_rgba(75,16,27,0.3)]"
                     : "border-charcoal/20 bg-white/40 text-charcoal/75 hover:border-burgundy hover:text-burgundy"
                 )}
               >
@@ -119,7 +120,7 @@ export function BeforeAfterShowcase({
         <div className="mt-8 overflow-hidden rounded-3xl border border-charcoal/15 bg-obsidian p-2 shadow-[0_32px_70px_-28px_rgba(21,19,19,0.45)] sm:p-3">
           <div
             ref={containerRef}
-            data-cursor="drag"
+            data-cursor="DRAG"
             onPointerDown={(e) => {
               draggingRef.current = true;
               (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
@@ -131,6 +132,13 @@ export function BeforeAfterShowcase({
             }}
             onPointerUp={() => {
               draggingRef.current = false;
+              // Magnetic snap points at 25%, 50%, 75%
+              setPosition((curr) => {
+                if (Math.abs(curr - 50) < 5) return 50;
+                if (Math.abs(curr - 25) < 4) return 25;
+                if (Math.abs(curr - 75) < 4) return 75;
+                return curr;
+              });
             }}
             onKeyDown={(e) => {
               if (e.key === "ArrowLeft") setPosition((p) => Math.max(4, p - 4));
@@ -169,20 +177,26 @@ export function BeforeAfterShowcase({
 
             {/* Split Hairline & Aperture Handle */}
             <div
-              className="pointer-events-none absolute inset-y-0 z-10 w-[2px] -translate-x-1/2 bg-ivory shadow-[0_0_20px_rgba(245,240,232,0.75)]"
+              className="pointer-events-none absolute inset-y-0 z-10 w-[2px] -translate-x-1/2 bg-gradient-to-b from-gold via-ivory to-gold-warm shadow-[0_0_24px_rgba(216,180,119,0.85)]"
               style={{ left: `${position}%` }}
             >
-              <div className="absolute top-1/2 left-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-gold bg-obsidian/90 text-ivory shadow-2xl">
+              <div className="absolute top-1/2 left-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-gold bg-obsidian/95 text-ivory shadow-[0_0_28px_rgba(216,180,119,0.45)] backdrop-blur-md">
+                <span className="animate-studio-beacon absolute inset-0 rounded-full border border-gold/40" />
                 <MoveHorizontal className="h-4 w-4 text-gold" />
               </div>
             </div>
 
             {/* Honest Corner Badges */}
-            <div className="pointer-events-none absolute top-4 left-4 z-10 rounded-full border border-white/25 bg-charcoal/85 px-3.5 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-ivory backdrop-blur-md">
-              RAW CLIENT PHOTO
+            <div className="pointer-events-none absolute top-4 left-4 z-10 flex items-center gap-2 rounded-full border border-white/25 bg-charcoal/85 px-3.5 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-ivory backdrop-blur-md">
+              <span className="h-1.5 w-1.5 rounded-full bg-ivory/60" />
+              <span>RAW CLIENT PHOTO</span>
             </div>
-            <div className="pointer-events-none absolute top-4 right-4 z-10 rounded-full border border-gold/65 bg-burgundy/90 px-3.5 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-ivory backdrop-blur-md">
-              RAPID MOTION CINEMA
+            <div className="pointer-events-none absolute top-4 right-4 z-10 flex items-center gap-2 rounded-full border border-gold/75 bg-burgundy/90 px-3.5 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-ivory backdrop-blur-md shadow-[0_0_16px_rgba(75,16,27,0.6)]">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-studio-beacon absolute inline-flex h-full w-full rounded-full bg-gold opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
+              </span>
+              <span>RAPID MOTION CINEMA</span>
             </div>
           </div>
 
@@ -195,9 +209,33 @@ export function BeforeAfterShowcase({
                 {active.description}
               </p>
             </div>
-            <span className="shrink-0 font-mono text-[11px] uppercase tracking-[0.2em] text-gold/85">
-              Drag Aperture to Inspect
-            </span>
+            
+            {/* Quick Snap Preset Markers */}
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ivory/50">
+                Aperture:
+              </span>
+              {[
+                { label: "25%", val: 25 },
+                { label: "50%", val: 50 },
+                { label: "75%", val: 75 },
+              ].map((p) => (
+                <button
+                  key={p.val}
+                  type="button"
+                  data-magnetic="true"
+                  onClick={() => setPosition(p.val)}
+                  className={cn(
+                    "rounded-full border px-2.5 py-1 font-mono text-[10px] uppercase transition-all",
+                    Math.round(position) === p.val
+                      ? "border-gold bg-gold/20 text-gold"
+                      : "border-ivory/15 bg-obsidian/40 text-ivory/60 hover:text-ivory"
+                  )}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>

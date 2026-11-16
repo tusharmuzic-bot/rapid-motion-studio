@@ -34,8 +34,10 @@ export function HeroSection({ settings, content }: HeroSectionProps) {
     offset: ["start start", "end start"],
   });
 
-  const mediaY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
-  const mediaScale = useTransform(scrollYProgress, [0, 1], [1.02, 1.09]);
+  const mediaY = useTransform(scrollYProgress, [0, 1], ["0%", "14%"]);
+  const mediaScale = useTransform(scrollYProgress, [0, 1], [1.02, 1.1]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-8%"]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0.2]);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -135,57 +137,86 @@ export function HeroSection({ settings, content }: HeroSectionProps) {
         <div className="absolute inset-0 bg-gradient-to-r from-obsidian/80 via-obsidian/25 to-transparent" />
       </motion.div>
 
-      {/* Main Editorial Lockup */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6">
+      {/* Main Editorial Lockup with Kinetic Parallax Layer */}
+      <motion.div
+        style={{ y: textY, opacity: textOpacity }}
+        className="relative z-10 mx-auto w-full max-w-7xl px-6"
+      >
         <div className="max-w-4xl">
           <div className="inline-flex items-center gap-3 border-b border-ivory/25 pb-2.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-gold" />
+            <span className="relative flex h-2 w-2">
+              <span className="animate-studio-beacon absolute inline-flex h-full w-full rounded-full bg-gold opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
+            </span>
             <span className="font-mono text-[11px] uppercase tracking-[0.26em] text-ivory/85">
               {eyebrow}
             </span>
           </div>
 
-          <h1 className="mt-6 font-display text-5xl font-extrabold leading-[0.98] tracking-[-0.035em] text-ivory sm:text-7xl lg:text-[5.5rem]">
+          <h1 className="mt-6 font-display text-5xl font-extrabold leading-[0.96] tracking-[-0.038em] text-ivory sm:text-7xl lg:text-[5.5rem]">
             {lines.map((line, i) => (
-              <span
-                key={line}
-                className={`block ${
-                  i === lines.length - 1 ? "text-gold" : ""
-                }`}
-              >
-                {line}
+              <span key={line} className="block overflow-hidden py-0.5">
+                <motion.span
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{
+                    duration: 0.75,
+                    ease: [0.16, 1, 0.3, 1],
+                    delay: 0.15 + i * 0.12,
+                  }}
+                  className={`inline-block ${
+                    i === lines.length - 1
+                      ? "text-transparent bg-clip-text bg-gradient-to-r from-ivory via-gold to-gold-warm"
+                      : ""
+                  }`}
+                >
+                  {line}
+                </motion.span>
               </span>
             ))}
           </h1>
 
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-ivory/85 sm:text-lg">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.45 }}
+            className="mt-6 max-w-xl text-base leading-relaxed text-ivory/85 sm:text-lg"
+          >
             {subheadline}
-          </p>
+          </motion.p>
 
-          <div className="mt-9 flex flex-wrap items-center gap-4">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.55 }}
+            className="mt-9 flex flex-wrap items-center gap-4"
+          >
             <Link
               href="/work"
-              data-cursor="explore"
-              className="group inline-flex items-center gap-2.5 rounded-full bg-ivory px-7 py-3.5 text-xs font-bold uppercase tracking-[0.18em] text-charcoal transition-all duration-300 hover:bg-gold"
+              data-cursor="EXPLORE"
+              data-magnetic="true"
+              className="group inline-flex items-center gap-2.5 rounded-full bg-ivory px-7 py-3.5 text-xs font-bold uppercase tracking-[0.18em] text-charcoal transition-all duration-300 hover:bg-gold hover:shadow-[0_0_24px_rgba(216,180,119,0.4)]"
             >
               <span>{primaryCta}</span>
               <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
             <Link
               href="/start-project"
-              className="inline-flex items-center gap-2.5 rounded-full border border-ivory/30 bg-obsidian/45 px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] text-ivory backdrop-blur-md transition-all duration-300 hover:border-gold hover:text-gold"
+              data-magnetic="true"
+              className="inline-flex items-center gap-2.5 rounded-full border border-ivory/30 bg-obsidian/45 px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] text-ivory backdrop-blur-md transition-all duration-300 hover:border-gold hover:text-gold hover:shadow-[0_0_16px_rgba(216,180,119,0.25)]"
             >
               <span>{secondaryCta}</span>
             </Link>
-          </div>
+          </motion.div>
         </div>
 
-        {/* Bottom Interactive 4K Reel Scene Scrubber Bar */}
+        {/* Bottom Interactive 4K Reel Scene Scrubber Bar with Soundwave & Radial Progress */}
         <div className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-ivory/15 pt-5">
           <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
               onClick={togglePlay}
+              data-magnetic="true"
               aria-label={paused ? "Play 4K hero reel" : "Pause 4K hero reel"}
               className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-ivory/25 bg-obsidian/60 text-ivory transition hover:border-gold hover:text-gold"
             >
@@ -196,29 +227,53 @@ export function HeroSection({ settings, content }: HeroSectionProps) {
               )}
             </button>
 
-            {HERO_CHAPTERS.map((ch, idx) => (
-              <button
-                key={ch.id}
-                type="button"
-                onClick={() => seekToChapter(idx)}
-                className={cn(
-                  "rounded-full border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] transition-all",
-                  activeChapter === idx
-                    ? "border-gold bg-gold/15 text-gold"
-                    : "border-ivory/15 bg-obsidian/40 text-ivory/65 hover:border-ivory/35 hover:text-ivory"
-                )}
-              >
-                {ch.id} {ch.label}
-              </button>
-            ))}
+            {HERO_CHAPTERS.map((ch, idx) => {
+              const isActive = activeChapter === idx;
+              return (
+                <button
+                  key={ch.id}
+                  type="button"
+                  data-magnetic="true"
+                  onClick={() => seekToChapter(idx)}
+                  className={cn(
+                    "relative overflow-hidden rounded-full border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] transition-all",
+                    isActive
+                      ? "border-gold bg-gold/20 text-gold shadow-[0_0_12px_rgba(216,180,119,0.28)]"
+                      : "border-ivory/15 bg-obsidian/40 text-ivory/65 hover:border-ivory/35 hover:text-ivory"
+                  )}
+                >
+                  {/* Subtle active progress bar underneath */}
+                  {isActive && !paused && (
+                    <span className="absolute bottom-0 left-0 h-[1.5px] w-full origin-left bg-gradient-to-r from-gold to-gold-warm animate-[studio-marquee_2.2s_linear_infinite]" />
+                  )}
+                  <span className="relative z-10">
+                    {ch.id} {ch.label}
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
           <div className="flex items-center gap-5">
+            {/* Live 4-Bar Sound Design Audio Visualizer */}
+            <div className="hidden items-center gap-2 rounded-full border border-ivory/15 bg-obsidian/40 px-3 py-1 sm:flex">
+              <div className="flex items-end gap-0.5 h-3">
+                <span className="w-0.5 rounded-full bg-gold animate-audio-bar-1" />
+                <span className="w-0.5 rounded-full bg-gold-warm animate-audio-bar-2" />
+                <span className="w-0.5 rounded-full bg-gold animate-audio-bar-3" />
+                <span className="w-0.5 rounded-full bg-ivory animate-audio-bar-4" />
+              </div>
+              <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-ivory/60">
+                48kHz Sound Design
+              </span>
+            </div>
+
             <span className="hidden font-mono text-[10px] uppercase tracking-[0.22em] text-ivory/55 sm:inline">
-              3840 × 2160 • 4K MASTER REEL
+              3840 × 2160 • 4K MASTER
             </span>
             <a
               href="#brand-intro"
+              data-magnetic="true"
               aria-label="Scroll to brand introduction"
               className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-ivory/75 transition hover:text-gold"
             >
@@ -227,7 +282,7 @@ export function HeroSection({ settings, content }: HeroSectionProps) {
             </a>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
