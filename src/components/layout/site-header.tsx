@@ -12,44 +12,37 @@ import type { SiteSettings } from "@/lib/types";
 const NAV_LINKS = [
   {
     num: "01",
-    label: "Home",
-    href: "/",
-    desc: "The Art of Moving Ideas & Commercial Direction",
-    badge: "Official",
+    label: "Work",
+    href: "/work",
+    desc: "Commercial films, luxury product spots, and campaign portfolio",
+    badge: "Selected",
   },
   {
     num: "02",
-    label: "Our Work",
-    href: "/work",
-    desc: "Selected Commercial Portfolio & Brand Films",
-    badge: "8 Films",
+    label: "Services",
+    href: "/services",
+    desc: "AI-powered product commercials, 3D CGI, and brand campaigns",
+    badge: "Capabilities",
   },
   {
     num: "03",
-    label: "Services",
-    href: "/services",
-    desc: "AI Commercials, Product Films & 4K Pipeline",
-    badge: "Pipeline",
-  },
-  {
-    num: "04",
-    label: "How It Works",
+    label: "How We Create",
     href: "/how-it-works",
-    desc: "From Everyday Product Snapshots to Cinema",
+    desc: "From raw everyday product snapshots to high-impact cinema",
     badge: "Process",
   },
   {
-    num: "05",
-    label: "About Us",
+    num: "04",
+    label: "Studio",
     href: "/about",
-    desc: "Studio Philosophy, Engineering & Heritage",
-    badge: "Studio",
+    desc: "Our creative direction, engineering approach, and production vision",
+    badge: "About Us",
   },
   {
-    num: "06",
+    num: "05",
     label: "Contact",
     href: "/contact",
-    desc: "Direct Production Desk & Global Briefing Line",
+    desc: "Direct production desk and commercial commission briefs",
     badge: "Direct Line",
   },
 ];
@@ -86,39 +79,23 @@ export function SiteHeader({ settings }: { settings: SiteSettings }) {
 
   return (
     <>
-      {settings.announcement_enabled && settings.announcement_text && (
-        <div className="relative z-50 border-b border-ivory/10 bg-[#1c0b10] px-4 py-2 text-center text-[11px] font-medium tracking-[0.14em] text-ivory/90 uppercase">
-          <span className="inline-flex items-center gap-2.5">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-studio-beacon absolute inline-flex h-full w-full rounded-full bg-gold opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
-            </span>
-            {settings.announcement_text}
-          </span>
-        </div>
-      )}
-
       <header
         className={cn(
-          "sticky top-0 z-40 w-full transition-all duration-500",
-          scrolled ? "pt-3 px-3 sm:px-6" : "pt-4 px-3 sm:px-6"
+          "fixed top-0 inset-x-0 z-40 w-full transition-all duration-300",
+          scrolled
+            ? "border-b border-ivory/10 bg-[#0c090a]/92 backdrop-blur-xl py-3.5 shadow-[0_12px_36px_-15px_rgba(0,0,0,0.8)]"
+            : "border-b border-white/[0.04] bg-gradient-to-b from-[#0d0b0c]/90 via-[#0d0b0c]/50 to-transparent py-4 sm:py-5"
         )}
       >
-        <div
-          className={cn(
-            "mx-auto flex max-w-7xl items-center justify-between rounded-2xl transition-all duration-500",
-            scrolled
-              ? "glass-nav px-4 py-2.5 sm:px-6"
-              : "border border-ivory/10 bg-charcoal/65 backdrop-blur-xl px-4 py-3 sm:px-6 shadow-[0_12px_40px_-20px_rgba(0,0,0,0.75)]"
-          )}
-        >
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 sm:px-8">
           <BrandLogo
             brandName={settings.brand_name}
             logoUrl={settings.logo_url}
           />
 
+          {/* Editorial Humanized Navigation */}
           <nav
-            className="hidden items-center gap-1 lg:flex"
+            className="hidden items-center gap-8 lg:flex"
             aria-label="Primary Navigation"
           >
             {NAV_LINKS.map((item) => {
@@ -131,39 +108,33 @@ export function SiteHeader({ settings }: { settings: SiteSettings }) {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "relative rounded-full px-3.5 py-2 text-xs font-medium tracking-[0.06em] transition-colors duration-200",
+                    "group relative font-sans text-[12px] font-semibold tracking-[0.2em] uppercase transition-colors duration-200",
                     active
                       ? "text-ivory"
                       : "text-ivory/65 hover:text-ivory"
                   )}
                 >
+                  <span>{item.label}</span>
                   {active && (
                     <motion.span
-                      layoutId="rms-nav-pill"
-                      transition={{ type: "spring", stiffness: 360, damping: 32 }}
-                      className="absolute inset-0 rounded-full border border-gold/25 bg-ivory/[0.08]"
+                      layoutId="rms-nav-underline"
+                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                      className="absolute -bottom-1 left-0 h-[1.5px] w-full bg-gradient-to-r from-gold via-[#F35A2A] to-gold"
                     />
                   )}
-                  <span className="relative z-10">{item.label}</span>
                 </Link>
               );
             })}
           </nav>
 
-          <div className="hidden items-center gap-2.5 lg:flex">
-            <Link
-              href="/start-project?intent=quote"
-              data-magnetic="true"
-              className="rounded-full border border-ivory/15 px-4 py-2 text-xs font-medium tracking-[0.06em] text-ivory/80 transition-colors hover:border-ivory/35 hover:text-ivory"
-            >
-              Get a Quote
-            </Link>
+          {/* Clean Humanized Studio CTA */}
+          <div className="hidden items-center gap-4 lg:flex">
             <Link
               href="/start-project"
               data-magnetic="true"
-              className="group inline-flex items-center gap-1.5 rounded-full bg-ivory px-4 py-2 text-xs font-semibold tracking-[0.08em] text-charcoal transition-all duration-300 hover:bg-gold hover:shadow-[0_0_18px_rgba(216,180,119,0.45)]"
+              className="group inline-flex items-center gap-2 rounded-full border border-ivory/25 bg-ivory/[0.06] hover:bg-ivory hover:text-charcoal px-5 py-2.5 text-[11px] font-bold tracking-[0.18em] uppercase text-ivory transition-all duration-300 hover:shadow-[0_0_24px_rgba(245,240,232,0.22)]"
             >
-              <span>Start a Project</span>
+              <span>Start a Brief</span>
               <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </div>

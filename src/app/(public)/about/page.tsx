@@ -43,7 +43,7 @@ export default async function AboutPage() {
   const ICONS = [Compass, Film, Layers];
 
   return (
-    <div className="py-12 sm:py-20">
+    <div className="pt-24 sm:pt-28 pb-16">
       <div className="mx-auto max-w-7xl px-6 space-y-12">
         <div className="glass-panel grid gap-10 rounded-3xl p-8 sm:p-12 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-7">

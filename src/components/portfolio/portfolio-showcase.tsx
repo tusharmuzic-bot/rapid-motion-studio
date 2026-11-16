@@ -16,26 +16,11 @@ interface PortfolioShowcaseProps {
   showHeader?: boolean;
 }
 
-function getAspectMeta(project: PortfolioProject, idx: number) {
-  const v = project.video_url || "";
-  if (v.includes("ugc-radiance") || v.includes("fashion-atelier")) {
-    return {
-      ratioLabel: "9:16 VERTICAL",
-      frameClass: "aspect-[9/14] sm:row-span-2",
-      gridSpan: "lg:col-span-1",
-    };
-  }
-  if (v.includes("perfume-aura") || v.includes("horology-chrono")) {
-    return {
-      ratioLabel: "1:1 SQUARE",
-      frameClass: "aspect-square",
-      gridSpan: idx === 0 ? "md:col-span-2 lg:col-span-2" : "lg:col-span-1",
-    };
-  }
+function getAspectMeta() {
   return {
-    ratioLabel: "16:9 CINEMA",
-    frameClass: idx === 0 ? "aspect-[16/9]" : "aspect-[16/10]",
-    gridSpan: idx === 0 ? "md:col-span-2 lg:col-span-2" : "lg:col-span-1",
+    ratioLabel: "16:9 4K CINEMA",
+    frameClass: "aspect-[16/9]",
+    gridSpan: "col-span-1",
   };
 }
 
@@ -301,24 +286,24 @@ export function PortfolioShowcase({
             </p>
           </div>
         ) : (
-          <Scroll3DReveal depth={6} className="mt-10">
-            <div className="grid grid-flow-dense gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {filtered.map((project, idx) => {
-                const meta = getAspectMeta(project, idx);
-                return (
-                  <div key={project.id} className={meta.gridSpan}>
-                    <CardTilt maxTilt={5.5} showGlare={true} className="h-full rounded-3xl">
+          <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((project, idx) => {
+              const meta = getAspectMeta();
+              return (
+                <Scroll3DReveal key={project.id} depth={7} className="h-full">
+                  <div className="h-full">
+                    <CardTilt maxTilt={5} showGlare={true} className="h-full rounded-3xl">
                       <motion.article
                         layout
                         initial={{ opacity: 0, y: 18 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.1 }}
+                        viewport={{ once: true, amount: 0.15 }}
                         transition={{ duration: 0.45, delay: Math.min(idx * 0.05, 0.25) }}
                         className="group flex h-full flex-col overflow-hidden rounded-3xl border border-ivory/10 bg-[#181415] transition-all duration-300 hover:border-gold/45 shadow-[0_12px_36px_rgba(0,0,0,0.45)]"
                       >
                         <PortfolioCardMedia
                           project={project}
-                          frameClass={meta.frameClass}
+                          frameClass="aspect-[16/9]"
                           ratioLabel={meta.ratioLabel}
                           onSelect={() => setModalProject(project)}
                         />
@@ -375,10 +360,10 @@ export function PortfolioShowcase({
                       </motion.article>
                     </CardTilt>
                   </div>
-                );
-              })}
-            </div>
-          </Scroll3DReveal>
+                </Scroll3DReveal>
+              );
+            })}
+          </div>
         )}
       </div>
 

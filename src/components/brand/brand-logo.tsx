@@ -8,6 +8,7 @@ interface BrandLogoProps {
   compact?: boolean;
   logoUrl?: string;
   surface?: "dark" | "ivory";
+  showWordmark?: boolean;
 }
 
 export function BrandLogo({
@@ -16,6 +17,7 @@ export function BrandLogo({
   compact = false,
   logoUrl,
   surface = "dark",
+  showWordmark = false,
 }: BrandLogoProps) {
   const words = brandName.trim().split(/\s+/);
   const firstTwo = words.length >= 2 ? words.slice(0, 2).join(" ") : brandName;
@@ -42,6 +44,7 @@ export function BrandLogo({
       )}
       aria-label={brandName}
     >
+      {/* Official Brand Logo */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={resolvedLogoSrc}
@@ -49,7 +52,7 @@ export function BrandLogo({
         className="h-8 w-auto max-w-[130px] object-contain transition-all duration-300 group-hover:scale-[1.04] group-hover:drop-shadow-[0_0_14px_rgba(243,90,42,0.45)] sm:h-9"
       />
 
-      {!compact && (
+      {showWordmark && !compact && (
         <span
           className={cn(
             "hidden flex-col border-l pl-3.5 leading-none sm:flex",

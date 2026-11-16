@@ -20,7 +20,7 @@ export default async function ContactPage() {
   const cleanWa = settings.whatsapp_number?.replace(/[^\d+]/g, "") || "";
 
   return (
-    <div className="py-12 sm:py-20">
+    <div className="pt-24 sm:pt-28 pb-16">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-12">
         <div className="lg:col-span-5 space-y-6">
           <span className="glass-pill inline-block rounded-full px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-gold">

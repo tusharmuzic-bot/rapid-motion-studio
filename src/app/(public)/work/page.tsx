@@ -17,7 +17,7 @@ export default async function WorkPage() {
   ]);
 
   return (
-    <div className="pt-12 pb-16">
+    <div className="pt-24 sm:pt-28 pb-16">
       <div className="mx-auto max-w-7xl px-6">
         <div className="glass-panel rounded-3xl p-8 sm:p-12">
           <span className="font-mono text-xs uppercase tracking-[0.22em] text-gold">

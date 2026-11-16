@@ -43,7 +43,7 @@ export default function StartProjectPage({
   }>;
 }) {
   return (
-    <div className="relative overflow-hidden py-12 sm:py-20">
+    <div className="relative overflow-hidden pt-24 sm:pt-28 pb-16">
       {/* Volumetric Studio Aura */}
       <div className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 h-[500px] w-[800px] rounded-full bg-[radial-gradient(circle,rgba(243,90,42,0.14),transparent_70%)] blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 right-0 h-[400px] w-[400px] rounded-full bg-[radial-gradient(circle,rgba(75,16,27,0.25),transparent_70%)] blur-3xl" />

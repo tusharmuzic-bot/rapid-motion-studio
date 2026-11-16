@@ -34,10 +34,13 @@ export function HeroSection({ settings, content }: HeroSectionProps) {
     offset: ["start start", "end start"],
   });
 
-  const mediaY = useTransform(scrollYProgress, [0, 1], ["0%", "14%"]);
-  const mediaScale = useTransform(scrollYProgress, [0, 1], [1.02, 1.1]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-8%"]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0.2]);
+  const mediaY = useTransform(scrollYProgress, [0, 1], ["0%", "16%"]);
+  const mediaScale = useTransform(scrollYProgress, [0, 1], [1.02, 1.12]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0.15]);
+  const textRotateX = useTransform(scrollYProgress, [0, 1], [0, 14]);
+  const textScale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
+  const textZ = useTransform(scrollYProgress, [0, 1], [0, -70]);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -101,7 +104,8 @@ export function HeroSection({ settings, content }: HeroSectionProps) {
   return (
     <section
       ref={containerRef}
-      className="relative flex min-h-[92vh] w-full flex-col justify-end overflow-hidden bg-obsidian pt-14 pb-10 sm:pt-20 sm:pb-14"
+      style={{ perspective: "1200px" }}
+      className="relative flex min-h-[96vh] w-full flex-col justify-end overflow-hidden bg-obsidian pt-24 pb-12 sm:pt-28 sm:pb-16"
     >
       {/* 4K UHD Cinema Background Reel */}
       <motion.div
@@ -137,18 +141,25 @@ export function HeroSection({ settings, content }: HeroSectionProps) {
         <div className="absolute inset-0 bg-gradient-to-r from-obsidian/80 via-obsidian/25 to-transparent" />
       </motion.div>
 
-      {/* Main Editorial Lockup with Kinetic Parallax Layer */}
+      {/* Main Editorial Lockup with 3D Spatial Parallax Layer */}
       <motion.div
-        style={{ y: textY, opacity: textOpacity }}
+        style={{
+          y: textY,
+          opacity: textOpacity,
+          rotateX: textRotateX,
+          scale: textScale,
+          z: textZ,
+          transformStyle: "preserve-3d",
+        }}
         className="relative z-10 mx-auto w-full max-w-7xl px-6"
       >
         <div className="max-w-4xl">
-          <div className="inline-flex items-center gap-3 border-b border-ivory/25 pb-2.5">
+          <div className="inline-flex items-center gap-3 border-b border-ivory/20 pb-2.5">
             <span className="relative flex h-2 w-2">
               <span className="animate-studio-beacon absolute inline-flex h-full w-full rounded-full bg-gold opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
             </span>
-            <span className="font-mono text-[11px] uppercase tracking-[0.26em] text-ivory/85">
+            <span className="font-sans text-[12px] font-semibold uppercase tracking-[0.22em] text-ivory/85">
               {eyebrow}
             </span>
           </div>
